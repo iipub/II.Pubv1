@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ii.Pub - Digital Storefront & Instant Delivery</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        body {
+            background-color: #120303;
+            color: #f3f4f6;
+            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            position: relative;
+            overflow-x: hidden;
+        }
+        /* Large background wallpaper layer */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: url('Gemini_Generated_Image_n63f04n63f04n63f-removebg-preview.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.12;
+            pointer-events: none;
+            z-index: -1;
+        }
+        [x-cloak] { display: none !important; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between" x-data="appData()" x-init="init()">
+
+    <header class="w-full px-6 py-4 grid grid-cols-3 items-center border-b border-red-950/50 backdrop-blur-md sticky top-0 z-50 bg-[#120303]/90">
+        <div class="cursor-pointer flex items-center justify-start" @click="currentTab = 'home'">
+            <img src="Gemini_Generated_Image_n63f04n63f04n63f-removebg-preview.png" alt="ii.Pub Logo" class="h-8 object-contain">
+        </div>
+
+        <nav class="hidden md:flex items-center justify-center space-x-1 bg-red-950/40 border border-red-900/30 px-3 py-1.5 rounded-full text-sm justify-self-center">
+            <button @click="currentTab = 'home'" :class="currentTab === 'home' ? 'bg-red-800/80 text-white shadow-sm' : 'text-gray-300 hover:text-white'" class="px-4 py-1 rounded-full transition">Home</button>
+            <button @click="currentTab = 'products'" :class="currentTab === 'products' ? 'bg-red-800/80 text-white shadow-sm' : 'text-gray-300 hover:text-white'" class="px-4 py-1 rounded-full transition">Products</button>
+            <button @click="currentTab = 'reviews'" :class="currentTab === 'reviews' ? 'bg-red-800/80 text-white shadow-sm' : 'text-gray-300 hover:text-white'" class="px-4 py-1 rounded-full transition">Reviews</button>
+        </nav>
+
+        <div class="flex items-center justify-end space-x-4 text-gray-300">
+            <button @click="showSearchModal = true" class="hover:text-white transition" title="Search">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            </button>
+            <button @click="toggleTheme()" class="hover:text-white transition" title="Toggle Theme">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+            </button>
+            <template x-if="!isLoggedIn">
+                <button @click="showLoginModal = true" class="border border-red-800/60 bg-red-950/30 hover:bg-red-900/40 text-white px-4 py-1.5 rounded-full text-sm font-medium transition">Log in</button>
+            </template>
+            <template x-if="isLoggedIn">
+                <button @click="logout()" class="border border-red-800/60 bg-red-900 text-white px-4 py-1.5 rounded-full text-sm font-medium transition" title="Click to Logout" x-text="loggedInUser + ' (Out)'"></button>
+            </template>
+            <button @click="showCartModal = true" class="relative hover:text-white transition" title="Shopping Cart">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                <span x-show="cartCount > 0" class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center" x-text="cartCount"></span>
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+
+        <section x-show="currentTab === 'home'" class="flex flex-col items-center justify-center text-center px-4 py-24">
+            <div class="inline-flex items-center px-3 py-1 rounded-full border border-red-900/50 bg-red-950/30 text-xs text-gray-300 mb-8 backdrop-blur-sm">
+                Trusted by <span x-text="totalCustomers" class="font-bold text-white mx-1"></span> customers
+            </div>
+
+            <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-white max-w-3xl mb-6 leading-tight">
+                Everything you need, delivered instantly
+            </h1>
+
+            <p class="text-gray-300 text-base md:text-lg max-w-xl mb-10">
+                ii.Pub delivers digital products the moment your request clears.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center gap-4 mb-14">
+                <button @click="currentTab = 'products'" class="w-full sm:w-auto bg-red-700 hover:bg-red-600 text-white font-medium px-8 py-3 rounded-full shadow-lg transition">
+                    Browse products
+                </button>
+            </div>
+
+            <div class="flex flex-wrap justify-center items-center gap-8 text-xs text-gray-400">
+                <div class="flex items-center gap-1.5"><span class="text-red-500 font-bold">✓</span> Instant delivery</div>
+                <div class="flex items-center gap-1.5"><span class="text-red-500 font-bold">✓</span> Secure checkout</div>
+                <div class="flex items-center gap-1.5"><span class="text-red-500 font-bold">✓</span> Real support</div>
+            </div>
+        </section>
+
+
+        <section x-show="currentTab === 'products'" class="max-w-7xl mx-auto px-6 py-12" x-cloak>
+            <div class="mb-10">
+                <div class="text-sm text-gray-400 mb-2">
+                    <span class="cursor-pointer hover:underline" @click="currentTab = 'home'">Home</span> / Products
+                </div>
+                <h1 class="text-3xl md:text-4xl font-bold text-white mb-1">All products</h1>
+                <p class="text-gray-400 text-sm">Browse the full catalog and download instantly.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                
+                <div class="bg-[#1a0505]/80 backdrop-blur-md border border-red-950 p-5 rounded-2xl h-fit space-y-6 shadow-xl">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Keyword</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                            </span>
+                            <input type="text" x-model="searchQuery" placeholder="Search products" class="w-full bg-[#120303] border border-red-950 text-sm rounded-lg pl-9 pr-4 py-2 text-gray-200 placeholder-gray-500 focus:outline-none focus:border-red-700">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Your Price</label>
+                        <div class="flex items-center space-x-2">
+                            <input type="text" x-model="minPrice" placeholder="Min" class="w-1/2 bg-[#120303] border border-red-950 text-sm rounded-lg px-3 py-2 text-gray-200 placeholder-gray-500 focus:outline-none focus:border-red-700">
+                            <input type="text" x-model="maxPrice" placeholder="Max" class="w-1/2 bg-[#120303] border border-red-950 text-sm rounded-lg px-3 py-2 text-gray-200 placeholder-gray-500 focus:outline-none focus:border-red-700">
+                        </div>
+                    </div>
+
+                    <div class="flex items-center space-x-2">
+                        <input type="checkbox" id="stock" x-model="inStockOnly" class="rounded bg-[#120303] border-red-950 text-red-700 focus:ring-0">
+                        <label for="stock" class="text-sm text-gray-300">In stock only</label>
+                    </div>
+
+                    <hr class="border-red-950">
+
+                    <div class="space-y-2">
+                        <button class="w-full bg-red-700 hover:bg-red-600 text-white font-medium py-2 rounded-lg text-sm transition flex items-center justify-center gap-2">
+                            Apply filters
+                        </button>
+                        <button @click="searchQuery=''; minPrice=''; maxPrice=''; inStockOnly=false;" class="w-full text-center text-xs text-gray-400 hover:text-white transition py-1">
+                            Reset filters
+                        </button>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-3">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-xs text-gray-400">2 products available</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        
+                        <div class="bg-[#1a0505]/80 backdrop-blur-md border border-red-950 rounded-2xl overflow-hidden shadow-xl hover:border-red-700 transition group flex flex-col justify-between"
+                             x-show="(!searchQuery || 'ii.pub spoofer'.includes(searchQuery.toLowerCase())) && (!inStockOnly || spooferStock > 0)">
+                            <div>
+                                <div class="bg-black/60 h-48 flex items-center justify-center relative overflow-hidden">
+                                    <img src="Gemini_Generated_Image_n63f04n63f04n63f-removebg-preview.png" alt="ii.Pub" class="h-12 object-contain transform group-hover:scale-105 transition duration-300">
+                                    <div class="absolute top-3 right-3 bg-red-900/60 backdrop-blur-md text-white text-[10px] px-2.5 py-1 rounded-full font-medium" x-text="spooferStock > 0 ? 'Digital Download' : 'Out of Order'"></div>
+                                </div>
+                                <div class="p-4">
+                                    <h3 class="text-white font-semibold text-base mb-1">ii.Pub Spoofer</h3>
+                                    <p class="text-xs text-gray-400 mb-3">Instant automated license & file delivery.</p>
+                                    <div class="flex justify-between items-center text-xs pt-3 border-t border-red-950/60">
+                                        <template x-if="spooferStock > 0">
+                                            <span class="text-emerald-400 font-medium flex items-center gap-1">
+                                                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> <span x-text="spooferStock"></span> in stock
+                                            </span>
+                                        </template>
+                                        <template x-if="spooferStock <= 0">
+                                            <span class="text-red-500 font-bold uppercase tracking-wider">Out of Order</span>
+                                        </template>
+                                        <span class="text-white font-bold text-sm">$0.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-4 pt-0 space-y-2">
+                                <template x-if="spooferStock > 0">
+                                    <button @click="handlePurchase('ii.Pub Spoofer', 0.00)" class="w-full bg-red-700 hover:bg-red-600 text-white font-medium py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-2 shadow-lg">
+                                        Claim
+                                    </button>
+                                </template>
+                                <template x-if="spooferStock <= 0">
+                                    <button disabled class="w-full bg-red-950/40 text-red-500 font-bold py-2.5 rounded-xl text-xs cursor-not-allowed border border-red-900/30">
+                                        Out of Order
+                                    </button>
+                                </template>
+                                <button @click="addToCart('ii.Pub Spoofer', 0.00)" class="w-full border border-red-800/60 hover:bg-red-950/40 text-gray-200 font-medium py-2 rounded-xl text-xs transition">
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="bg-[#1a0505]/80 backdrop-blur-md border border-red-950 rounded-2xl overflow-hidden shadow-xl hover:border-red-700 transition group flex flex-col justify-between"
+                             x-show="(!searchQuery || 'ii.pub menu'.includes(searchQuery.toLowerCase())) && (!inStockOnly || menuStock > 0)">
+                            <div>
+                                <div class="bg-black/60 h-48 flex items-center justify-center relative overflow-hidden">
+                                    <img src="Gemini_Generated_Image_n63f04n63f04n63f-removebg-preview.png" alt="ii.Pub" class="h-12 object-contain transform group-hover:scale-105 transition duration-300">
+                                    <div class="absolute top-3 right-3 bg-red-900/60 backdrop-blur-md text-white text-[10px] px-2.5 py-1 rounded-full font-medium" x-text="menuStock > 0 ? 'Digital Download' : 'Out of Order'"></div>
+                                </div>
+                                <div class="p-4">
+                                    <h3 class="text-white font-semibold text-base mb-1">II.Pub Menu</h3>
+                                    <p class="text-xs text-gray-400 mb-3">Official configuration files and menu resource.</p>
+                                    <div class="flex justify-between items-center text-xs pt-3 border-t border-red-950/60">
+                                        <template x-if="menuStock > 0">
+                                            <span class="text-emerald-400 font-medium flex items-center gap-1">
+                                                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> <span x-text="menuStock"></span> in stock
+                                            </span>
+                                        </template>
+                                        <template x-if="menuStock <= 0">
+                                            <span class="text-red-500 font-bold uppercase tracking-wider">Out of Order</span>
+                                        </template>
+                                        <span class="text-white font-bold text-sm">$0.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-4 pt-0 space-y-2">
+                                <template x-if="menuStock > 0">
+                                    <button @click="handlePurchase('II.Pub Menu', 0.00)" class="w-full bg-red-700 hover:bg-red-600 text-white font-medium py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-2 shadow-lg">
+                                        Claim
+                                    </button>
+                                </template>
+                                <template x-if="menuStock <= 0">
+                                    <button disabled class="w-full bg-red-950/40 text-red-500 font-bold py-2.5 rounded-xl text-xs cursor-not-allowed border border-red-900/30">
+                                        Out of Order
+                                    </button>
+                                </template>
+                                <button @click="addToCart('II.Pub Menu', 0.00)" class="w-full border border-red-800/60 hover:bg-red-950/40 text-gray-200 font-medium py-2 rounded-xl text-xs transition">
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <section x-show="currentTab === 'reviews'" class="max-w-4xl mx-auto px-6 py-16 text-center" x-cloak>
+            <h1 class="text-3xl font-bold text-white mb-4">Customer Reviews</h1>
+            <p class="text-gray-400 text-sm mb-8">See what clients have to say about ii.Pub instant delivery.</p>
+            <div class="bg-[#1a0505]/80 backdrop-blur-md border border-red-950 p-8 rounded-2xl text-gray-400 text-sm shadow-xl relative">
+                No reviews yet. Be the first to leave feedback after claiming ii.Pub Spoofer or II.Pub Menu!
+            </div>
+        </section>
+
+    </main>
+
+    <div x-show="showSearchModal" class="fixed inset-0 z-50 flex items-start justify-center pt-24 bg-black/80 backdrop-blur-sm p-4" x-cloak>
+        <div class="bg-[#120303] border border-red-900 rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold text-white">Search Catalog</h3>
+                <button @click="showSearchModal = false" class="text-gray-400 hover:text-white">&times;</button>
+            </div>
+            <input type="text" x-model="searchQuery" placeholder="Type to search..." class="w-full bg-black/50 border border-red-950 text-sm rounded-lg px-3 py-2.5 text-gray-200 focus:outline-none focus:border-red-700 mb-4">
+            <button @click="showSearchModal = false; currentTab = 'products'" class="w-full bg-red-700 hover:bg-red-600 text-white py-2 rounded-xl text-xs font-medium">View Results in Products</button>
+        </div>
+    </div>
+
+    <div x-show="showCartModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4" x-cloak>
+        <div class="bg-[#120303] border border-red-900 rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold text-white">Your Shopping Cart</h3>
+                <button @click="showCartModal = false" class="text-gray-400 hover:text-white">&times;</button>
+            </div>
+            <div class="space-y-3 max-h-60 overflow-y-auto mb-4">
+                <template x-for="(item, index) in cartItems">
+                    <div class="flex justify-between items-center bg-black/40 p-3 rounded-lg border border-red-950 text-xs">
+                        <div>
+                            <div class="font-bold text-white" x-text="item.name"></div>
+                            <div class="text-gray-400" x-text="'Qty: ' + item.qty + ' | $' + (item.price * item.qty).toFixed(2)"></div>
+                        </div>
+                        <button @click="removeFromCart(index)" class="text-red-400 hover:text-red-300">Remove</button>
+                    </div>
+                </template>
+                <div x-show="cartItems.length === 0" class="text-center text-xs text-gray-500 py-6">Your cart is empty.</div>
+            </div>
+            <button @click="showCartModal = false" class="w-full border border-red-900/60 hover:bg-red-950/40 text-gray-300 py-2.5 rounded-xl text-xs transition">Close</button>
+        </div>
+    </div>
+
+    <div x-show="showLoginModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4" x-cloak>
+        <div class="bg-[#120303] border border-red-900 rounded-2xl max-w-sm w-full p-6 shadow-2xl relative text-center">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold text-white">Log in to ii.Pub</h3>
+                <button @click="showLoginModal = false" class="text-gray-400 hover:text-white">&times;</button>
+            </div>
+            <input type="text" x-model="usernameInput" placeholder="Enter username..." class="w-full bg-black/50 border border-red-950 text-sm rounded-lg px-3 py-2.5 text-gray-200 focus:outline-none focus:border-red-700 mb-4">
+            <button @click="login()" class="w-full bg-red-700 hover:bg-red-600 text-white py-2.5 rounded-xl text-xs font-medium mb-2">Confirm Login</button>
+            <button @click="showLoginModal = false" class="w-full border border-red-900/60 text-gray-400 py-2 rounded-xl text-xs">Cancel</button>
+        </div>
+    </div>
+
+    <div x-show="showPaymentModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4" x-cloak>
+        <div class="bg-[#1a0505] border border-red-900 rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+            <button @click="showPaymentModal = false" class="absolute top-4 right-4 text-gray-400 hover:text-white">&times;</button>
+            
+            <div class="text-center mb-5">
+                <div class="w-12 h-12 bg-red-900/40 rounded-full flex items-center justify-center mx-auto mb-3 text-red-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-1">Claim Your Product</h3>
+                <p class="text-xs text-gray-300" x-text="'Item: ' + productName"></p>
+            </div>
+
+            <div class="space-y-3 mb-6 text-left">
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-1">Email Address</label>
+                    <input type="email" x-model="payerEmail" placeholder="your@email.com" class="w-full bg-black/50 border border-red-950 text-sm rounded-lg px-3 py-2 text-gray-200 focus:outline-none focus:border-red-700">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-1">Discord Handle</label>
+                    <input type="text" x-model="payerDiscord" placeholder="username#0000 or @username" class="w-full bg-black/50 border border-red-950 text-sm rounded-lg px-3 py-2 text-gray-200 focus:outline-none focus:border-red-700">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-1">Additional Notes (Optional)</label>
+                    <textarea x-model="payerNotes" placeholder="Any comments..." rows="2" class="w-full bg-black/50 border border-red-950 text-sm rounded-lg px-3 py-2 text-gray-200 focus:outline-none focus:border-red-700 resize-none"></textarea>
+                </div>
+            </div>
+
+            <div class="space-y-2">
+                <button @click="submitOrderInfo()" :disabled="isSubmitting" class="w-full bg-red-700 hover:bg-red-600 text-white font-medium py-3 rounded-xl text-sm transition block shadow-lg disabled:opacity-50">
+                    <span x-show="!isSubmitting">Submit & Get Download</span>
+                    <span x-show="isSubmitting">Sending Details...</span>
+                </button>
+                <button @click="showPaymentModal = false" class="w-full border border-red-900/60 hover:bg-red-950/40 text-gray-300 py-2.5 rounded-xl text-xs transition">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div x-show="showDownloadModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4" x-cloak>
+        <div class="bg-[#1a0505] border border-red-900 rounded-2xl max-w-md w-full p-6 shadow-2xl relative text-center">
+            <button @click="showDownloadModal = false" class="absolute top-4 right-4 text-gray-400 hover:text-white">&times;</button>
+            <div class="w-12 h-12 bg-red-900/40 rounded-full flex items-center justify-center mx-auto mb-4 text-red-400">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2" x-text="'Ready to Download: ' + productName"></h3>
+            <p class="text-xs text-gray-300 mb-6">Your details have been saved successfully and stock has decreased by 1.</p>
+            <a :href="downloadLink" target="_blank" class="w-full bg-red-700 hover:bg-red-600 text-white font-medium py-3 rounded-xl text-sm transition block shadow-lg mb-3">Access Download Link</a>
+            <button @click="showDownloadModal = false" class="w-full border border-red-900/60 hover:bg-red-950/40 text-gray-300 py-2.5 rounded-xl text-xs transition">Close</button>
+        </div>
+    </div>
+
+    <footer class="w-full py-6 text-center text-xs text-gray-500 border-t border-red-950/40">
+        Powered by ii.Pub • Secure Digital Distribution
+    </footer>
+
+    <script>
+        function appData() {
+            return {
+                currentTab: 'home', 
+                cartCount: 0, 
+                showDownloadModal: false, 
+                showPaymentModal: false,
+                showSearchModal: false,
+                showCartModal: false,
+                showLoginModal: false,
+                searchQuery: '',
+                minPrice: '',
+                maxPrice: '',
+                inStockOnly: false,
+                productName: '',
+                productPrice: 0,
+                downloadLink: '',
+                
+                payerEmail: '',
+                payerDiscord: '',
+                payerNotes: '',
+                isSubmitting: false,
+
+                // Customer count tracking saved in localStorage
+                totalCustomers: (() => {
+                    let savedCount = localStorage.getItem('iipub_total_customers');
+                    return savedCount !== null ? parseInt(savedCount) : 0;
+                })(),
+                
+                // Restocked to 999 and persistent in localStorage
+                spooferStock: (() => {
+                    let savedStock = localStorage.getItem('iipub_spoofer_stock');
+                    if (savedStock === null) {
+                        localStorage.setItem('iipub_spoofer_stock', '999');
+                        return 999;
+                    }
+                    return parseInt(savedStock);
+                })(),
+
+                menuStock: (() => {
+                    let savedStock = localStorage.getItem('iipub_menu_stock');
+                    if (savedStock === null) {
+                        localStorage.setItem('iipub_menu_stock', '999');
+                        return 999;
+                    }
+                    return parseInt(savedStock);
+                })(),
+
+                isDarkMode: localStorage.getItem('iipub_dark') !== 'false',
+                isLoggedIn: localStorage.getItem('iipub_logged') === 'true',
+                usernameInput: '',
+                loggedInUser: localStorage.getItem('iipub_username') || '',
+                cartItems: JSON.parse(localStorage.getItem('iipub_cart') || '[]'),
+                
+                init() {
+                    this.updateCartCount();
+
+                    window.addEventListener('storage', (event) => {
+                        if (event.key === 'iipub_spoofer_stock') {
+                            this.spooferStock = parseInt(event.newValue);
+                        }
+                        if (event.key === 'iipub_menu_stock') {
+                            this.menuStock = parseInt(event.newValue);
+                        }
+                        if (event.key === 'iipub_total_customers') {
+                            this.totalCustomers = parseInt(event.newValue);
+                        }
+                    });
+                },
+
+                saveState() {
+                    localStorage.setItem('iipub_spoofer_stock', this.spooferStock);
+                    localStorage.setItem('iipub_menu_stock', this.menuStock);
+                    localStorage.setItem('iipub_total_customers', this.totalCustomers);
+                    localStorage.setItem('iipub_dark', this.isDarkMode);
+                    localStorage.setItem('iipub_logged', this.isLoggedIn);
+                    localStorage.setItem('iipub_username', this.loggedInUser);
+                    localStorage.setItem('iipub_cart', JSON.stringify(this.cartItems));
+                },
+
+                toggleTheme() {
+                    this.isDarkMode = !this.isDarkMode;
+                    this.saveState();
+                },
+
+                login() {
+                    if(this.usernameInput.trim()) {
+                        this.loggedInUser = this.usernameInput.trim();
+                        this.isLoggedIn = true;
+                        this.showLoginModal = false;
+                        this.usernameInput = '';
+                        this.saveState();
+                    }
+                },
+
+                logout() {
+                    this.isLoggedIn = false;
+                    this.loggedInUser = '';
+                    this.saveState();
+                },
+
+                addToCart(name, price) {
+                    let currentStock = (name === 'ii.Pub Spoofer') ? this.spooferStock : this.menuStock;
+                    if(currentStock <= 0) return;
+                    let item = this.cartItems.find(i => i.name === name);
+                    if(item) {
+                        item.qty++;
+                    } else {
+                        this.cartItems.push({ name: name, price: price, qty: 1 });
+                    }
+                    this.updateCartCount();
+                    this.saveState();
+                },
+
+                removeFromCart(index) {
+                    this.cartItems.splice(index, 1);
+                    this.updateCartCount();
+                    this.saveState();
+                },
+
+                updateCartCount() {
+                    this.cartCount = this.cartItems.reduce((sum, item) => sum + item.qty, 0);
+                },
+
+                handlePurchase(name, price) {
+                    let currentStock = (name === 'ii.Pub Spoofer') ? this.spooferStock : this.menuStock;
+                    if (currentStock <= 0) return;
+
+                    this.productName = name;
+                    this.productPrice = price;
+                    this.showPaymentModal = true;
+                },
+
+                submitOrderInfo() {
+                    if (!this.payerEmail || !this.payerDiscord) {
+                        alert('Please fill out your Email and Discord handle.');
+                        return;
+                    }
+
+                    this.isSubmitting = true;
+
+                    const webhookUrl = 'https://discord.com/api/webhooks/1539044084428308540/-IcL0NtTDjafLUmgMX8pgGUicnrg8ZoZqNDaplcrxnzBE-AA2NssirHQ4-QjqSPmIedO';
+                    const payload = {
+                        content: null,
+                        embeds: [
+                            {
+                                title: "🛒 New ii.Pub Order / Claim",
+                                color: 15158332,
+                                fields: [
+                                    { name: "Product", value: this.productName, inline: true },
+                                    { name: "Price", value: `$${this.productPrice.toFixed(2)}`, inline: true },
+                                    { name: "Account User", value: this.loggedInUser || 'Guest', inline: true },
+                                    { name: "Email", value: this.payerEmail, inline: false },
+                                    { name: "Discord", value: this.payerDiscord, inline: true },
+                                    { name: "Notes / Info", value: this.payerNotes || 'None', inline: false }
+                                ],
+                                timestamp: new Date().toISOString()
+                            }
+                        ]
+                    };
+
+                    fetch(webhookUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    }).then(() => {
+                        this.finalizeOrder();
+                    }).catch(() => {
+                        this.finalizeOrder();
+                    });
+                },
+
+                finalizeOrder() {
+                    this.isSubmitting = false;
+
+                    // Decrements stock and increments customer count on every purchase/claim
+                    if (this.productName === 'ii.Pub Spoofer') {
+                        this.spooferStock--;
+                        this.downloadLink = 'https://gofile.io/d/KCV7JXCg';
+                    } else if (this.productName === 'II.Pub Menu') {
+                        this.menuStock--;
+                        this.downloadLink = 'https://gofile.io/d/wPq2ogZC';
+                    }
+
+                    this.totalCustomers++;
+
+                    this.payerEmail = '';
+                    this.payerDiscord = '';
+                    this.payerNotes = '';
+
+                    this.showPaymentModal = false;
+                    this.showDownloadModal = true;
+                    this.saveState();
+                }
+            }
+        }
+    </script>
+</body>
+</html>
