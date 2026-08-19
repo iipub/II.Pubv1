@@ -3,26 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bunny.gg - Digital Storefront & Instant Delivery</title>
+    <title>Bunny.Shop</title>
+    <link rel="icon" type="image/png" href="Gemini_Generated_Image_oneam1oneam1onea-removebg-preview.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
         [x-cloak] { display: none !important; }
+        
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) rotate(0deg);
+                opacity: 0;
+            }
+            15% {
+                opacity: 0.4;
+            }
+            85% {
+                opacity: 0.4;
+            }
+            100% {
+                transform: translateY(110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .falling-logo {
+            position: absolute;
+            top: -10vh;
+            pointer-events: none;
+            animation: fall linear infinite;
+        }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between transition-colors duration-300" :class="isDarkMode ? 'bg-[#000000] text-gray-100' : 'bg-white text-gray-900'" x-data="appData()" x-init="init()">
+<body class="min-h-screen flex flex-col justify-between transition-colors duration-300 overflow-x-hidden relative" :class="isDarkMode ? 'bg-[#000000] text-gray-100' : 'bg-white text-gray-900'" x-data="appData()" x-init="init()">
 
-    <div class="fixed inset-0 pointer-events-none z-[-1] transition-opacity duration-300 filter brightness-[0.6] contrast-100 opacity-20" :class="isDarkMode ? 'opacity-25' : 'opacity-10'" style="background-image: url('Gemini_Generated_Image_oneam1oneam1onea-removebg-preview.png'); background-size: cover; background-position: center; background-repeat: no-repeat;"></div>
+    <!-- Fixed Background Watermark Logo -->
+    <div class="fixed inset-0 pointer-events-none z-[-2] transition-opacity duration-300 filter brightness-[0.8] contrast-100" :class="isDarkMode ? 'opacity-30' : 'opacity-15'" style="background-image: url('Gemini_Generated_Image_oneam1oneam1onea-removebg-preview.png'); background-size: cover; background-position: center; background-repeat: no-repeat;"></div>
+
+    <!-- Falling Logos Background Container -->
+    <div class="fixed inset-0 pointer-events-none z-[-1] overflow-hidden">
+        <template x-for="logo in fallingLogos" :key="logo.id">
+            <img src="Gemini_Generated_Image_oneam1oneam1onea-removebg-preview.png" 
+                 class="falling-logo object-contain filter brightness-[0.9] contrast-100 drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]" 
+                 :style="`left: ${logo.left}%; width: ${logo.size}px; animation-duration: ${logo.duration}s; animation-delay: ${logo.delay}s;`">
+        </template>
+    </div>
 
     <header class="w-full px-8 py-4 grid grid-cols-3 items-center backdrop-blur-md sticky top-0 z-50 transition-colors duration-300" :class="isDarkMode ? 'bg-[#000000]/80 text-gray-400' : 'bg-white/80 text-gray-600'">
         <div class="cursor-pointer flex items-center space-x-2 justify-start" @click="currentTab = 'home'">
-            <img src="Gemini_Generated_Image_oneam1oneam1onea-removebg-preview.png" alt="Bunny.gg Logo" class="h-6 object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]">
+            <img src="Gemini_Generated_Image_oneam1oneam1onea-removebg-preview.png" alt="Bunny.Shop Logo" class="h-6 object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]">
         </div>
 
         <nav class="hidden md:flex items-center justify-center space-x-1 px-3 py-1 rounded-full text-sm justify-self-center shadow-inner transition-colors duration-300" :class="isDarkMode ? 'bg-[#0a0a0a]' : 'bg-gray-100'">
             <button @click="currentTab = 'home'" :class="currentTab === 'home' ? 'bg-[#141414] text-white shadow-md' : (isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-black')" class="px-5 py-1 rounded-full transition">Home</button>
             <button @click="currentTab = 'products'" :class="currentTab === 'products' ? 'bg-[#141414] text-white shadow-md' : (isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-black')" class="px-5 py-1 rounded-full transition">Products</button>
-            <button @click="currentTab = 'reviews'" :class="currentTab === 'reviews' ? 'bg-[#141414] text-white shadow-md' : (isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-black')" class="px-5 py-1 rounded-full transition">Reviews</button>
         </nav>
 
         <div class="flex items-center justify-end space-x-5" :class="isDarkMode ? 'text-gray-400' : 'text-gray-600'">
@@ -58,7 +92,7 @@
             </h1>
 
             <p class="text-sm md:text-base max-w-lg mb-10 transition-colors duration-300" :class="isDarkMode ? 'text-gray-400' : 'text-gray-600'">
-                Bunny.gg delivers digital products the moment your request clears.
+                Bunny.Shop delivers digital products the moment your request clears.
             </p>
 
             <div class="mb-14">
@@ -235,113 +269,6 @@
             </div>
         </section>
 
-        <!-- Reviews Section -->
-        <section x-show="currentTab === 'reviews'"
-                 class="max-w-4xl mx-auto px-6 py-16 text-center w-full"
-                 x-cloak>
-
-            <!-- Logo -->
-            <div class="flex justify-center mb-6">
-                <img
-                    src="https://cdn.discordapp.com/attachments/1531979101131374664/1539550987730161744/Gemini_Generated_Image_oneam1oneam1onea-removebg-preview.png?ex=6a86ba16&is=6a856896&hm=6f2a87b72fb610b7f15c3078712d1a8d59092542d5b893b50cb2266b25f05cd3&"
-                    alt="Bunny.gg"
-                    class="h-20 w-auto object-contain drop-shadow-[0_0_20px_rgba(236,72,153,0.45)]"
-                >
-            </div>
-
-            <!-- Title -->
-            <h1
-                class="text-3xl font-bold mb-4 transition-colors duration-300"
-                :class="isDarkMode ? 'text-pink-400' : 'text-pink-600'"
-            >
-                Customer Reviews
-            </h1>
-
-            <p
-                class="text-sm mb-8 transition-colors duration-300"
-                :class="isDarkMode ? 'text-pink-200/60' : 'text-pink-700/70'"
-            >
-                See what clients have to say about Bunny.gg instant delivery.
-            </p>
-
-            <!-- Reviews -->
-            <div class="space-y-4 mb-8 text-left">
-
-                <template x-for="review in customerReviews" :key="review.id">
-
-                    <div
-                        class="backdrop-blur-md p-5 rounded-2xl shadow-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4 transition-all duration-300 border"
-                        :class="isDarkMode
-                            ? 'bg-[#0a0508]/95 border-pink-500/10 hover:border-pink-500/30 hover:shadow-pink-500/10'
-                            : 'bg-white border-pink-100 shadow-pink-100 hover:border-pink-200'"
-                    >
-
-                        <div class="space-y-1">
-
-                            <div class="flex items-center gap-2">
-
-                                <span
-                                    class="font-bold text-sm transition-colors duration-300"
-                                    :class="isDarkMode ? 'text-white' : 'text-gray-900'"
-                                    x-text="review.author">
-                                </span>
-
-                                <span
-                                    class="text-[10px] px-2 py-0.5 rounded font-medium transition-colors duration-300"
-                                    :class="isDarkMode
-                                        ? 'bg-pink-500/10 text-pink-300 border border-pink-500/20'
-                                        : 'bg-pink-50 text-pink-600 border border-pink-100'"
-                                    x-text="review.product">
-                                </span>
-
-                            </div>
-
-                            <p
-                                class="text-xs transition-colors duration-300"
-                                :class="isDarkMode ? 'text-pink-100/70' : 'text-gray-600'"
-                                x-text="review.text">
-                            </p>
-
-                        </div>
-
-                        <div class="flex items-center gap-2 self-end md:self-center">
-
-                            <!-- Pink Stars -->
-                            <div
-                                class="text-pink-500 text-xs tracking-widest drop-shadow-[0_0_6px_rgba(236,72,153,0.35)]"
-                                x-text="'★'.repeat(review.rating) + '☆'.repeat(5 - review.rating)">
-                            </div>
-
-                            <span
-                                class="text-[10px] transition-colors duration-300"
-                                :class="isDarkMode ? 'text-pink-300/40' : 'text-pink-400'"
-                                x-text="review.timeAgo">
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                </template>
-
-            </div>
-
-            <!-- Empty Reviews -->
-            <div
-                x-show="customerReviews.length === 0"
-                class="backdrop-blur-md p-8 rounded-2xl text-sm shadow-xl relative mb-8 transition-all duration-300 border"
-                :class="isDarkMode
-                    ? 'bg-[#0a0508]/95 text-pink-200/60 border-pink-500/10'
-                    : 'bg-white text-pink-500 border-pink-100 shadow-pink-100'"
-            >
-                No reviews yet. Be the first to leave feedback after claiming
-                <span class="font-semibold text-pink-500">Bunny.gg Spoofer</span>
-                or
-                <span class="font-semibold text-pink-500">Bunny.gg Menu</span>!
-            </div>
-
-        </section>
-
     </main>
 
     <!-- Modals -->
@@ -381,7 +308,7 @@
     <div x-show="showLoginModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4" x-cloak>
         <div class="rounded-2xl max-w-sm w-full p-6 shadow-2xl relative text-center transition-colors duration-300" :class="isDarkMode ? 'bg-[#000000] text-white' : 'bg-white text-gray-900'">
             <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-bold">Log in to Bunny.gg</h3>
+                <h3 class="text-lg font-bold">Log in to Bunny.Shop</h3>
                 <button @click="showLoginModal = false" class="transition-colors" :class="isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-black'">&times;</button>
             </div>
             <input type="text" x-model="usernameInput" placeholder="Enter username..." class="w-full text-sm rounded-lg px-3 py-2.5 border-0 focus:outline-none mb-4 transition-colors duration-300" :class="isDarkMode ? 'bg-black/50 text-gray-200' : 'bg-gray-100 text-gray-800'">
@@ -448,7 +375,7 @@
     </div>
 
     <footer class="w-full py-6 text-center text-xs border-t transition-colors duration-300" :class="isDarkMode ? 'text-gray-500 border-gray-900/40' : 'text-gray-400 border-gray-200'">
-        Powered by Bunny.gg • Secure Digital Distribution
+        Powered by Bunny.Shop • Secure Digital Distribution
     </footer>
 
     <script>
@@ -470,6 +397,14 @@
                 downloadLink: '',
                 selectedStars: 5,
                 isAiGenerating: false,
+
+                fallingLogos: Array.from({ length: 18 }, (_, i) => ({
+                    id: i,
+                    left: Math.random() * 95,
+                    size: Math.floor(Math.random() * 30) + 20,
+                    duration: Math.random() * 6 + 4,
+                    delay: Math.random() * 5
+                })),
 
                 totalCustomers: (() => {
                     let savedCount = localStorage.getItem('iipub_total_customers');
