@@ -3,26 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ii.Pub - Digital Storefront & Instant Delivery</title>
+    <title>Bunny.gg - Digital Storefront & Instant Delivery</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
         [x-cloak] { display: none !important; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between transition-colors duration-300" :class="isDarkMode ? 'bg-[#080101] text-gray-100' : 'bg-white text-gray-900'" x-data="appData()" x-init="init()">
+<body class="min-h-screen flex flex-col justify-between transition-colors duration-300" :class="isDarkMode ? 'bg-[#000000] text-gray-100' : 'bg-white text-gray-900'" x-data="appData()" x-init="init()">
 
-    <div class="fixed inset-0 pointer-events-none z-[-1] transition-opacity duration-300 filter brightness-[0.6] contrast-100 opacity-20" :class="isDarkMode ? 'opacity-25' : 'opacity-10'" style="background-image: url('Gemini_Generated_Image_gmvd3wgmvd3wgmvd-removebg-preview.png'); background-size: cover; background-position: center; background-repeat: no-repeat;"></div>
+    <div class="fixed inset-0 pointer-events-none z-[-1] transition-opacity duration-300 filter brightness-[0.6] contrast-100 opacity-20" :class="isDarkMode ? 'opacity-25' : 'opacity-10'" style="background-image: url('Gemini_Generated_Image_oneam1oneam1onea-removebg-preview.png'); background-size: cover; background-position: center; background-repeat: no-repeat;"></div>
 
-    <header class="w-full px-8 py-4 grid grid-cols-3 items-center backdrop-blur-md sticky top-0 z-50 transition-colors duration-300" :class="isDarkMode ? 'bg-[#080101]/80 text-gray-400' : 'bg-white/80 text-gray-600'">
+    <header class="w-full px-8 py-4 grid grid-cols-3 items-center backdrop-blur-md sticky top-0 z-50 transition-colors duration-300" :class="isDarkMode ? 'bg-[#000000]/80 text-gray-400' : 'bg-white/80 text-gray-600'">
         <div class="cursor-pointer flex items-center space-x-2 justify-start" @click="currentTab = 'home'">
-            <img src="Gemini_Generated_Image_gmvd3wgmvd3wgmvd-removebg-preview.png" alt="ii.Pub Logo" class="h-6 object-contain drop-shadow-[0_0_8px_rgba(220,38,38,0.4)]">
+            <img src="Gemini_Generated_Image_oneam1oneam1onea-removebg-preview.png" alt="Bunny.gg Logo" class="h-6 object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]">
         </div>
 
-        <nav class="hidden md:flex items-center justify-center space-x-1 px-3 py-1 rounded-full text-sm justify-self-center shadow-inner transition-colors duration-300" :class="isDarkMode ? 'bg-red-950/20' : 'bg-gray-100'">
-            <button @click="currentTab = 'home'" :class="currentTab === 'home' ? 'bg-red-800/80 text-white shadow-md' : (isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-black')" class="px-5 py-1 rounded-full transition">Home</button>
-            <button @click="currentTab = 'products'" :class="currentTab === 'products' ? 'bg-red-800/80 text-white shadow-md' : (isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-black')" class="px-5 py-1 rounded-full transition">Products</button>
-            <button @click="currentTab = 'reviews'" :class="currentTab === 'reviews' ? 'bg-red-800/80 text-white shadow-md' : (isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-black')" class="px-5 py-1 rounded-full transition">Reviews</button>
+        <nav class="hidden md:flex items-center justify-center space-x-1 px-3 py-1 rounded-full text-sm justify-self-center shadow-inner transition-colors duration-300" :class="isDarkMode ? 'bg-[#0a0a0a]' : 'bg-gray-100'">
+            <button @click="currentTab = 'home'" :class="currentTab === 'home' ? 'bg-[#141414] text-white shadow-md' : (isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-black')" class="px-5 py-1 rounded-full transition">Home</button>
+            <button @click="currentTab = 'products'" :class="currentTab === 'products' ? 'bg-[#141414] text-white shadow-md' : (isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-black')" class="px-5 py-1 rounded-full transition">Products</button>
+            <button @click="currentTab = 'reviews'" :class="currentTab === 'reviews' ? 'bg-[#141414] text-white shadow-md' : (isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-black')" class="px-5 py-1 rounded-full transition">Reviews</button>
         </nav>
 
         <div class="flex items-center justify-end space-x-5" :class="isDarkMode ? 'text-gray-400' : 'text-gray-600'">
@@ -33,14 +33,14 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
             </button>
             <template x-if="!isLoggedIn">
-                <button @click="showLoginModal = true" class="bg-red-950/20 hover:bg-red-900/30 text-white px-5 py-1.5 rounded-full text-sm font-medium transition shadow" :class="isDarkMode ? 'bg-red-950/20 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-800'">Log in</button>
+                <button @click="showLoginModal = true" class="px-5 py-1.5 rounded-full text-sm font-medium transition shadow" :class="isDarkMode ? 'bg-[#111111] hover:bg-[#1a1a1a] text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-800'">Log in</button>
             </template>
             <template x-if="isLoggedIn">
-                <button @click="logout()" class="bg-red-900 text-white px-5 py-1.5 rounded-full text-sm font-medium transition shadow" title="Click to Logout" x-text="loggedInUser + ' (Out)'"></button>
+                <button @click="logout()" class="bg-[#141414] hover:bg-[#1a1a1a] text-white px-5 py-1.5 rounded-full text-sm font-medium transition shadow" title="Click to Logout" x-text="loggedInUser + ' (Out)'"></button>
             </template>
             <button @click="showCartModal = true" class="relative transition" :class="isDarkMode ? 'hover:text-white text-gray-400' : 'hover:text-black text-gray-600'" title="Shopping Cart">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-                <span x-show="cartCount > 0" class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-bold" x-text="cartCount"></span>
+                <span x-show="cartCount > 0" class="absolute -top-2 -right-2 bg-[#222222] text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-bold" x-text="cartCount"></span>
             </button>
         </div>
     </header>
@@ -49,7 +49,7 @@
 
         <!-- Home Section -->
         <section x-show="currentTab === 'home'" class="flex flex-col items-center justify-center text-center px-4 py-16">
-            <div class="inline-flex items-center px-4 py-1.5 rounded-full text-xs mb-8 backdrop-blur-md shadow-lg transition-colors duration-300" :class="isDarkMode ? 'bg-red-950/20 text-gray-300' : 'bg-gray-100 text-gray-700'">
+            <div class="inline-flex items-center px-4 py-1.5 rounded-full text-xs mb-8 backdrop-blur-md shadow-lg transition-colors duration-300" :class="isDarkMode ? 'bg-[#0a0a0a] text-gray-300' : 'bg-gray-100 text-gray-700'">
                 Trusted by <span x-text="totalCustomers" class="font-bold mx-1" :class="isDarkMode ? 'text-white' : 'text-black'"></span> customers
             </div>
 
@@ -58,19 +58,19 @@
             </h1>
 
             <p class="text-sm md:text-base max-w-lg mb-10 transition-colors duration-300" :class="isDarkMode ? 'text-gray-400' : 'text-gray-600'">
-                ii.Pub delivers digital products the moment your request clears.
+                Bunny.gg delivers digital products the moment your request clears.
             </p>
 
             <div class="mb-14">
-                <button @click="currentTab = 'products'" class="bg-[#b91c1c] hover:bg-red-700 text-white font-medium px-8 py-3.5 rounded-full shadow-lg shadow-red-950 transition transform hover:-translate-y-0.5 text-sm">
+                <button @click="currentTab = 'products'" class="bg-[#141414] hover:bg-[#1a1a1a] text-white font-medium px-8 py-3.5 rounded-full shadow-lg transition transform hover:-translate-y-0.5 text-sm">
                     Browse products
                 </button>
             </div>
 
             <div class="flex flex-wrap justify-center items-center gap-10 text-xs transition-colors duration-300" :class="isDarkMode ? 'text-gray-400' : 'text-gray-600'">
-                <div class="flex items-center gap-1.5"><span class="text-red-500 font-bold">✓</span> Instant delivery</div>
-                <div class="flex items-center gap-1.5"><span class="text-red-500 font-bold">✓</span> Secure checkout</div>
-                <div class="flex items-center gap-1.5"><span class="text-red-500 font-bold">✓</span> Real support</div>
+                <div class="flex items-center gap-1.5"><span class="text-gray-400 font-bold">✓</span> Instant delivery</div>
+                <div class="flex items-center gap-1.5"><span class="text-gray-400 font-bold">✓</span> Secure checkout</div>
+                <div class="flex items-center gap-1.5"><span class="text-gray-400 font-bold">✓</span> Real support</div>
             </div>
         </section>
 
@@ -86,34 +86,34 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
                 
-                <div class="backdrop-blur-md p-5 rounded-2xl h-fit space-y-6 shadow-xl transition-colors duration-300" :class="isDarkMode ? 'bg-[#120303]/90' : 'bg-white shadow-gray-200'">
+                <div class="backdrop-blur-md p-5 rounded-2xl h-fit space-y-6 shadow-xl transition-colors duration-300" :class="isDarkMode ? 'bg-[#050505]/90' : 'bg-white shadow-gray-200'">
                     <div>
                         <label class="block text-xs font-semibold uppercase tracking-wider mb-2 transition-colors duration-300" :class="isDarkMode ? 'text-gray-400' : 'text-gray-600'">Keyword</label>
                         <div class="relative">
                             <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none transition-colors duration-300" :class="isDarkMode ? 'text-gray-500' : 'text-gray-400'">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                             </span>
-                            <input type="text" x-model="searchQuery" placeholder="Search products" class="w-full text-sm rounded-lg pl-9 pr-4 py-2 border-0 focus:outline-none transition-colors duration-300" :class="isDarkMode ? 'bg-[#080101] text-gray-200 placeholder-gray-500' : 'bg-gray-100 text-gray-800 placeholder-gray-400'">
+                            <input type="text" x-model="searchQuery" placeholder="Search products" class="w-full text-sm rounded-lg pl-9 pr-4 py-2 border-0 focus:outline-none transition-colors duration-300" :class="isDarkMode ? 'bg-[#000000] text-gray-200 placeholder-gray-500' : 'bg-gray-100 text-gray-800 placeholder-gray-400'">
                         </div>
                     </div>
 
                     <div>
                         <label class="block text-xs font-semibold uppercase tracking-wider mb-2 transition-colors duration-300" :class="isDarkMode ? 'text-gray-400' : 'text-gray-600'">Your Price</label>
                         <div class="flex items-center space-x-2">
-                            <input type="text" x-model="minPrice" placeholder="Min" class="w-1/2 text-sm rounded-lg px-3 py-2 border-0 focus:outline-none transition-colors duration-300" :class="isDarkMode ? 'bg-[#080101] text-gray-200 placeholder-gray-500' : 'bg-gray-100 text-gray-800 placeholder-gray-400'">
-                            <input type="text" x-model="maxPrice" placeholder="Max" class="w-1/2 text-sm rounded-lg px-3 py-2 border-0 focus:outline-none transition-colors duration-300" :class="isDarkMode ? 'bg-[#080101] text-gray-200 placeholder-gray-500' : 'bg-gray-100 text-gray-800 placeholder-gray-400'">
+                            <input type="text" x-model="minPrice" placeholder="Min" class="w-1/2 text-sm rounded-lg px-3 py-2 border-0 focus:outline-none transition-colors duration-300" :class="isDarkMode ? 'bg-[#000000] text-gray-200 placeholder-gray-500' : 'bg-gray-100 text-gray-800 placeholder-gray-400'">
+                            <input type="text" x-model="maxPrice" placeholder="Max" class="w-1/2 text-sm rounded-lg px-3 py-2 border-0 focus:outline-none transition-colors duration-300" :class="isDarkMode ? 'bg-[#000000] text-gray-200 placeholder-gray-500' : 'bg-gray-100 text-gray-800 placeholder-gray-400'">
                         </div>
                     </div>
 
                     <div class="flex items-center space-x-2">
-                        <input type="checkbox" id="stock" x-model="inStockOnly" class="rounded focus:ring-0 transition-colors duration-300" :class="isDarkMode ? 'bg-[#080101] text-red-700' : 'bg-gray-100 text-red-600'">
+                        <input type="checkbox" id="stock" x-model="inStockOnly" class="rounded focus:ring-0 transition-colors duration-300" :class="isDarkMode ? 'bg-[#000000] text-gray-600' : 'bg-gray-100 text-pink-600'">
                         <label for="stock" class="text-sm transition-colors duration-300" :class="isDarkMode ? 'text-gray-300' : 'text-gray-700'">In stock only</label>
                     </div>
 
-                    <hr class="transition-colors duration-300 opacity-20" :class="isDarkMode ? 'border-red-950' : 'border-gray-300'">
+                    <hr class="transition-colors duration-300 opacity-20" :class="isDarkMode ? 'border-gray-800' : 'border-gray-300'">
 
                     <div class="space-y-2">
-                        <button class="w-full bg-red-700 hover:bg-red-600 text-white font-medium py-2 rounded-lg text-sm transition flex items-center justify-center gap-2">
+                        <button class="w-full bg-[#141414] hover:bg-[#1a1a1a] text-white font-medium py-2 rounded-lg text-sm transition flex items-center justify-center gap-2">
                             Apply filters
                         </button>
                         <button @click="searchQuery=''; minPrice=''; maxPrice=''; inStockOnly=false;" class="w-full text-center text-xs transition py-1" :class="isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-black'">
@@ -131,15 +131,15 @@
                         
                         <!-- Product 1 -->
                         <div class="backdrop-blur-md rounded-2xl overflow-hidden shadow-xl transition group flex flex-col justify-between"
-                             :class="isDarkMode ? 'bg-[#120303]/90 hover:bg-[#1a0505]' : 'bg-white hover:bg-gray-50 shadow-gray-200'"
-                             x-show="(!searchQuery || 'ii.pub spoofer'.includes(searchQuery.toLowerCase())) && (!inStockOnly || spooferStock > 0)">
+                             :class="isDarkMode ? 'bg-[#050505]/90 hover:bg-[#0d0d0d]' : 'bg-white hover:bg-gray-50 shadow-gray-200'"
+                             x-show="(!searchQuery || 'Bunny.gg spoofer'.includes(searchQuery.toLowerCase())) && (!inStockOnly || spooferStock > 0)">
                             <div>
                                 <div class="h-48 flex items-center justify-center relative overflow-hidden p-6 transition-colors duration-300" :class="isDarkMode ? 'bg-black/60' : 'bg-gray-100'">
-                                    <img src="Gemini_Generated_Image_gmvd3wgmvd3wgmvd-removebg-preview.png" alt="ii.Pub Spoofer" class="max-h-24 w-auto object-contain transform group-hover:scale-105 transition duration-300 drop-shadow-[0_0_12px_rgba(220,38,38,0.5)]">
-                                    <div class="absolute top-3 right-3 backdrop-blur-md text-white text-[10px] px-2.5 py-1 rounded-full font-medium" :class="isDarkMode ? 'bg-red-900/60' : 'bg-red-700'" x-text="spooferStock > 0 ? 'Digital Download' : 'Out of Order'"></div>
+                                    <img src="Gemini_Generated_Image_oneam1oneam1onea-removebg-preview.png" alt="Bunny.gg Spoofer" class="max-h-24 w-auto object-contain transform group-hover:scale-105 transition duration-300 drop-shadow-[0_0_12px_rgba(255,255,255,0.2)]">
+                                    <div class="absolute top-3 right-3 backdrop-blur-md text-white text-[10px] px-2.5 py-1 rounded-full font-medium" :class="isDarkMode ? 'bg-[#141414]/80' : 'bg-zinc-600'" x-text="spooferStock > 0 ? 'Digital Download' : 'Out of Order'"></div>
                                 </div>
                                 <div class="p-4">
-                                    <h3 class="font-semibold text-base mb-1 transition-colors duration-300" :class="isDarkMode ? 'text-white' : 'text-gray-900'">ii.Pub Spoofer</h3>
+                                    <h3 class="font-semibold text-base mb-1 transition-colors duration-300" :class="isDarkMode ? 'text-white' : 'text-gray-900'">Bunny.gg Spoofer</h3>
                                     <p class="text-xs mb-3 transition-colors duration-300" :class="isDarkMode ? 'text-gray-400' : 'text-gray-600'">Instant automated license & file delivery.</p>
                                     <div class="flex justify-between items-center text-xs pt-3">
                                         <template x-if="spooferStock > 0">
@@ -148,7 +148,7 @@
                                             </span>
                                         </template>
                                         <template x-if="spooferStock <= 0">
-                                            <span class="text-red-500 font-bold uppercase tracking-wider">Out of Order</span>
+                                            <span class="text-gray-400 font-bold uppercase tracking-wider">Out of Order</span>
                                         </template>
                                         <span class="font-bold text-sm transition-colors duration-300" :class="isDarkMode ? 'text-white' : 'text-gray-900'">$0.00</span>
                                     </div>
@@ -156,16 +156,16 @@
                             </div>
                             <div class="p-4 pt-0 space-y-2">
                                 <template x-if="spooferStock > 0">
-                                    <button @click="handlePurchase('ii.Pub Spoofer', 0.00)" class="w-full bg-red-700 hover:bg-red-600 text-white font-medium py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-2 shadow-lg">
+                                    <button @click="handlePurchase('Bunny.gg Spoofer', 0.00)" class="w-full bg-[#141414] hover:bg-[#1a1a1a] text-white font-medium py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-2 shadow-lg">
                                         Claim
                                     </button>
                                 </template>
                                 <template x-if="spooferStock <= 0">
-                                    <button disabled class="w-full font-bold py-2.5 rounded-xl text-xs cursor-not-allowed transition-colors duration-300" :class="isDarkMode ? 'bg-red-950/40 text-red-500' : 'bg-red-50 text-red-600'">
+                                    <button disabled class="w-full font-bold py-2.5 rounded-xl text-xs cursor-not-allowed transition-colors duration-300" :class="isDarkMode ? 'bg-[#111111] text-gray-500' : 'bg-gray-100 text-gray-400'">
                                         Out of Order
                                     </button>
                                 </template>
-                                <button @click="addToCart('ii.Pub Spoofer', 0.00)" class="w-full font-medium py-2 rounded-xl text-xs transition" :class="isDarkMode ? 'bg-red-950/20 hover:bg-red-950/40 text-gray-200' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'">
+                                <button @click="addToCart('Bunny.gg Spoofer', 0.00)" class="w-full font-medium py-2 rounded-xl text-xs transition" :class="isDarkMode ? 'bg-[#111111] hover:bg-[#191919] text-gray-200' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'">
                                     Add to Cart
                                 </button>
                             </div>
@@ -173,15 +173,15 @@
 
                         <!-- Product 2 -->
                         <div class="backdrop-blur-md rounded-2xl overflow-hidden shadow-xl transition group flex flex-col justify-between"
-                             :class="isDarkMode ? 'bg-[#120303]/90 hover:bg-[#1a0505]' : 'bg-white hover:bg-gray-50 shadow-gray-200'"
-                             x-show="(!searchQuery || 'ii.pub menu'.includes(searchQuery.toLowerCase())) && (!inStockOnly || menuStock > 0)">
+                             :class="isDarkMode ? 'bg-[#050505]/90 hover:bg-[#0d0d0d]' : 'bg-white hover:bg-gray-50 shadow-gray-200'"
+                             x-show="(!searchQuery || 'Bunny.gg menu'.includes(searchQuery.toLowerCase())) && (!inStockOnly || menuStock > 0)">
                             <div>
                                 <div class="h-48 flex items-center justify-center relative overflow-hidden p-6 transition-colors duration-300" :class="isDarkMode ? 'bg-black/60' : 'bg-gray-100'">
-                                    <img src="Gemini_Generated_Image_gmvd3wgmvd3wgmvd-removebg-preview.png" alt="II.Pub Menu" class="max-h-24 w-auto object-contain transform group-hover:scale-105 transition duration-300 drop-shadow-[0_0_12px_rgba(220,38,38,0.5)]">
-                                    <div class="absolute top-3 right-3 backdrop-blur-md text-white text-[10px] px-2.5 py-1 rounded-full font-medium" :class="isDarkMode ? 'bg-red-900/60' : 'bg-red-700'" x-text="menuStock > 0 ? 'Digital Download' : 'Out of Order'"></div>
+                                    <img src="Gemini_Generated_Image_oneam1oneam1onea-removebg-preview.png" alt="Bunny.gg Menu" class="max-h-24 w-auto object-contain transform group-hover:scale-105 transition duration-300 drop-shadow-[0_0_12px_rgba(255,255,255,0.2)]">
+                                    <div class="absolute top-3 right-3 backdrop-blur-md text-white text-[10px] px-2.5 py-1 rounded-full font-medium" :class="isDarkMode ? 'bg-[#141414]/80' : 'bg-zinc-600'" x-text="menuStock > 0 ? 'Digital Download' : 'Out of Order'"></div>
                                 </div>
                                 <div class="p-4">
-                                    <h3 class="font-semibold text-base mb-1 transition-colors duration-300" :class="isDarkMode ? 'text-white' : 'text-gray-900'">II.Pub Menu</h3>
+                                    <h3 class="font-semibold text-base mb-1 transition-colors duration-300" :class="isDarkMode ? 'text-white' : 'text-gray-900'">Bunny.gg Menu</h3>
                                     <p class="text-xs mb-3 transition-colors duration-300" :class="isDarkMode ? 'text-gray-400' : 'text-gray-600'">Official configuration files and menu resource.</p>
                                     <div class="flex justify-between items-center text-xs pt-3">
                                         <template x-if="menuStock > 0">
@@ -190,7 +190,7 @@
                                             </span>
                                         </template>
                                         <template x-if="menuStock <= 0">
-                                            <span class="text-red-500 font-bold uppercase tracking-wider">Out of Order</span>
+                                            <span class="text-gray-400 font-bold uppercase tracking-wider">Out of Order</span>
                                         </template>
                                         <span class="font-bold text-sm transition-colors duration-300" :class="isDarkMode ? 'text-white' : 'text-gray-900'">$0.00</span>
                                     </div>
@@ -198,16 +198,16 @@
                             </div>
                             <div class="p-4 pt-0 space-y-2">
                                 <template x-if="menuStock > 0">
-                                    <button @click="handlePurchase('II.Pub Menu', 0.00)" class="w-full bg-red-700 hover:bg-red-600 text-white font-medium py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-2 shadow-lg">
+                                    <button @click="handlePurchase('Bunny.gg Menu', 0.00)" class="w-full bg-[#141414] hover:bg-[#1a1a1a] text-white font-medium py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-2 shadow-lg">
                                         Claim
                                     </button>
                                 </template>
                                 <template x-if="menuStock <= 0">
-                                    <button disabled class="w-full font-bold py-2.5 rounded-xl text-xs cursor-not-allowed transition-colors duration-300" :class="isDarkMode ? 'bg-red-950/40 text-red-500' : 'bg-red-50 text-red-600'">
+                                    <button disabled class="w-full font-bold py-2.5 rounded-xl text-xs cursor-not-allowed transition-colors duration-300" :class="isDarkMode ? 'bg-[#111111] text-gray-500' : 'bg-gray-100 text-gray-400'">
                                         Out of Order
                                     </button>
                                 </template>
-                                <button @click="addToCart('II.Pub Menu', 0.00)" class="w-full font-medium py-2 rounded-xl text-xs transition" :class="isDarkMode ? 'bg-red-950/20 hover:bg-red-950/40 text-gray-200' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'">
+                                <button @click="addToCart('Bunny.gg Menu', 0.00)" class="w-full font-medium py-2 rounded-xl text-xs transition" :class="isDarkMode ? 'bg-[#111111] hover:bg-[#191919] text-gray-200' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'">
                                     Add to Cart
                                 </button>
                             </div>
@@ -222,15 +222,15 @@
         <!-- Reviews Section -->
         <section x-show="currentTab === 'reviews'" class="max-w-4xl mx-auto px-6 py-16 text-center w-full" x-cloak>
             <h1 class="text-3xl font-bold mb-4 transition-colors duration-300" :class="isDarkMode ? 'text-white' : 'text-gray-900'">Customer Reviews</h1>
-            <p class="text-sm mb-8 transition-colors duration-300" :class="isDarkMode ? 'text-gray-400' : 'text-gray-600'">See what clients have to say about ii.Pub instant delivery.</p>
+            <p class="text-sm mb-8 transition-colors duration-300" :class="isDarkMode ? 'text-gray-400' : 'text-gray-600'">See what clients have to say about Bunny.gg instant delivery.</p>
             
             <div class="space-y-4 mb-8 text-left">
                 <template x-for="review in customerReviews" :key="review.id">
-                    <div class="backdrop-blur-md p-5 rounded-2xl shadow-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4 transition-colors duration-300" :class="isDarkMode ? 'bg-[#120303]/90' : 'bg-white shadow-gray-200'">
+                    <div class="backdrop-blur-md p-5 rounded-2xl shadow-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4 transition-colors duration-300" :class="isDarkMode ? 'bg-[#050505]/90' : 'bg-white shadow-gray-200'">
                         <div class="space-y-1">
                             <div class="flex items-center gap-2">
                                 <span class="font-bold text-sm transition-colors duration-300" :class="isDarkMode ? 'text-white' : 'text-gray-900'" x-text="review.author"></span>
-                                <span class="text-[10px] px-2 py-0.5 rounded font-medium transition-colors duration-300" :class="isDarkMode ? 'bg-red-950/60 text-red-300' : 'bg-red-50 text-red-700'" x-text="review.product"></span>
+                                <span class="text-[10px] px-2 py-0.5 rounded font-medium transition-colors duration-300" :class="isDarkMode ? 'bg-[#141414] text-gray-300' : 'bg-gray-100 text-gray-700'" x-text="review.product"></span>
                             </div>
                             <p class="text-xs transition-colors duration-300" :class="isDarkMode ? 'text-gray-300' : 'text-gray-600'" x-text="review.text"></p>
                         </div>
@@ -242,8 +242,8 @@
                 </template>
             </div>
 
-            <div x-show="customerReviews.length === 0" class="backdrop-blur-md p-8 rounded-2xl text-sm shadow-xl relative mb-8 transition-colors duration-300" :class="isDarkMode ? 'bg-[#120303]/90 text-gray-400' : 'bg-white shadow-gray-200 text-gray-500'">
-                No reviews yet. Be the first to leave feedback after claiming ii.Pub Spoofer or II.Pub Menu!
+            <div x-show="customerReviews.length === 0" class="backdrop-blur-md p-8 rounded-2xl text-sm shadow-xl relative mb-8 transition-colors duration-300" :class="isDarkMode ? 'bg-[#050505]/90 text-gray-400' : 'bg-white shadow-gray-200 text-gray-500'">
+                No reviews yet. Be the first to leave feedback after claiming Bunny.gg Spoofer or Bunny.gg Menu!
             </div>
         </section>
 
@@ -251,18 +251,18 @@
 
     <!-- Modals -->
     <div x-show="showSearchModal" class="fixed inset-0 z-50 flex items-start justify-center pt-24 bg-black/80 backdrop-blur-sm p-4" x-cloak>
-        <div class="rounded-2xl max-w-md w-full p-6 shadow-2xl relative transition-colors duration-300" :class="isDarkMode ? 'bg-[#080101] text-white' : 'bg-white text-gray-900'">
+        <div class="rounded-2xl max-w-md w-full p-6 shadow-2xl relative transition-colors duration-300" :class="isDarkMode ? 'bg-[#000000] text-white' : 'bg-white text-gray-900'">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-lg font-bold">Search Catalog</h3>
                 <button @click="showSearchModal = false" class="transition-colors" :class="isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-black'">&times;</button>
             </div>
             <input type="text" x-model="searchQuery" placeholder="Type to search..." class="w-full text-sm rounded-lg px-3 py-2.5 border-0 focus:outline-none mb-4 transition-colors duration-300" :class="isDarkMode ? 'bg-black/50 text-gray-200' : 'bg-gray-100 text-gray-800'">
-            <button @click="showSearchModal = false; currentTab = 'products'" class="w-full bg-red-700 hover:bg-red-600 text-white py-2 rounded-xl text-xs font-medium">View Results in Products</button>
+            <button @click="showSearchModal = false; currentTab = 'products'" class="w-full bg-[#141414] hover:bg-[#1a1a1a] text-white py-2 rounded-xl text-xs font-medium">View Results in Products</button>
         </div>
     </div>
 
     <div x-show="showCartModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4" x-cloak>
-        <div class="rounded-2xl max-w-md w-full p-6 shadow-2xl relative transition-colors duration-300" :class="isDarkMode ? 'bg-[#080101] text-white' : 'bg-white text-gray-900'">
+        <div class="rounded-2xl max-w-md w-full p-6 shadow-2xl relative transition-colors duration-300" :class="isDarkMode ? 'bg-[#000000] text-white' : 'bg-white text-gray-900'">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-lg font-bold">Your Shopping Cart</h3>
                 <button @click="showCartModal = false" class="transition-colors" :class="isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-black'">&times;</button>
@@ -274,34 +274,34 @@
                             <div class="font-bold" x-text="item.name"></div>
                             <div class="transition-colors duration-300" :class="isDarkMode ? 'text-gray-400' : 'text-gray-500'" x-text="'Qty: ' + item.qty + ' | $' + (item.price * item.qty).toFixed(2)"></div>
                         </div>
-                        <button @click="removeFromCart(index)" class="text-red-500 hover:text-red-400">Remove</button>
+                        <button @click="removeFromCart(index)" class="text-gray-400 hover:text-white">Remove</button>
                     </div>
                 </template>
                 <div x-show="cartItems.length === 0" class="text-center text-xs py-6 transition-colors duration-300" :class="isDarkMode ? 'text-gray-500' : 'text-gray-400'">Your cart is empty.</div>
             </div>
-            <button @click="showCartModal = false" class="w-full py-2.5 rounded-xl text-xs transition transition-colors duration-300" :class="isDarkMode ? 'bg-red-950/40 hover:bg-red-950/60 text-gray-300' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'">Close</button>
+            <button @click="showCartModal = false" class="w-full py-2.5 rounded-xl text-xs transition transition-colors duration-300" :class="isDarkMode ? 'bg-[#111111] hover:bg-[#191919] text-gray-300' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'">Close</button>
         </div>
     </div>
 
     <div x-show="showLoginModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4" x-cloak>
-        <div class="rounded-2xl max-w-sm w-full p-6 shadow-2xl relative text-center transition-colors duration-300" :class="isDarkMode ? 'bg-[#080101] text-white' : 'bg-white text-gray-900'">
+        <div class="rounded-2xl max-w-sm w-full p-6 shadow-2xl relative text-center transition-colors duration-300" :class="isDarkMode ? 'bg-[#000000] text-white' : 'bg-white text-gray-900'">
             <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-bold">Log in to ii.Pub</h3>
+                <h3 class="text-lg font-bold">Log in to Bunny.gg</h3>
                 <button @click="showLoginModal = false" class="transition-colors" :class="isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-black'">&times;</button>
             </div>
             <input type="text" x-model="usernameInput" placeholder="Enter username..." class="w-full text-sm rounded-lg px-3 py-2.5 border-0 focus:outline-none mb-4 transition-colors duration-300" :class="isDarkMode ? 'bg-black/50 text-gray-200' : 'bg-gray-100 text-gray-800'">
-            <button @click="login()" class="w-full bg-red-700 hover:bg-red-600 text-white py-2.5 rounded-xl text-xs font-medium mb-2">Confirm Login</button>
+            <button @click="login()" class="w-full bg-[#141414] hover:bg-[#1a1a1a] text-white py-2.5 rounded-xl text-xs font-medium mb-2">Confirm Login</button>
             <button @click="showLoginModal = false" class="w-full py-2 rounded-xl text-xs transition-colors duration-300" :class="isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-black'">Cancel</button>
         </div>
     </div>
 
     <!-- Claim / Purchase Modal -->
     <div x-show="showPaymentModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 overflow-y-auto" x-cloak>
-        <div class="rounded-2xl max-w-md w-full p-6 shadow-2xl relative my-8 transition-colors duration-300" :class="isDarkMode ? 'bg-[#120303] text-white' : 'bg-white text-gray-900'">
+        <div class="rounded-2xl max-w-md w-full p-6 shadow-2xl relative my-8 transition-colors duration-300" :class="isDarkMode ? 'bg-[#050505] text-white' : 'bg-white text-gray-900'">
             <button @click="showPaymentModal = false" class="absolute top-4 right-4 transition-colors" :class="isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-black'">&times;</button>
             
             <div class="text-center mb-5">
-                <div class="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3 text-red-400 transition-colors duration-300" :class="isDarkMode ? 'bg-red-900/40' : 'bg-red-100'">
+                <div class="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3 text-gray-300 transition-colors duration-300" :class="isDarkMode ? 'bg-[#111111]' : 'bg-gray-100'">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                 </div>
                 <h3 class="text-xl font-bold mb-1">Claim Your Product & Leave Vouch</h3>
@@ -309,30 +309,30 @@
             </div>
 
             <!-- Star Rating Selection -->
-            <div class="mb-5 p-4 rounded-xl text-center space-y-2 transition-colors duration-300" :class="isDarkMode ? 'bg-red-950/40' : 'bg-gray-100'">
+            <div class="mb-5 p-4 rounded-xl text-center space-y-2 transition-colors duration-300" :class="isDarkMode ? 'bg-[#111111]/40' : 'bg-gray-100'">
                 <div class="text-xs font-semibold uppercase tracking-wider transition-colors duration-300" :class="isDarkMode ? 'text-gray-400' : 'text-gray-500'">Select Rating</div>
                 <div class="flex justify-center space-x-2 text-2xl cursor-pointer">
                     <template x-for="star in [1, 2, 3, 4, 5]">
-                        <span @click="selectedStars = star" :class="star <= selectedStars ? 'text-yellow-400 drop-shadow-[0_0_6px_rgba(250,204,21,0.6)]' : (isDarkMode ? 'text-gray-600' : 'text-gray-300')" class="transition transform hover:scale-110">★</span>
+                        <span @click="selectedStars = star" :class="star <= selectedStars ? 'text-yellow-400 drop-shadow-[0_0_6px_rgba(250,204,21,0.6)]' : (isDarkMode ? 'text-gray-700' : 'text-gray-300')" class="transition transform hover:scale-110">★</span>
                     </template>
                 </div>
                 <div class="text-xs font-medium transition-colors duration-300" :class="isDarkMode ? 'text-gray-400' : 'text-gray-600'" x-text="selectedStars + ' out of 5 stars'"></div>
             </div>
 
             <!-- AI Vouch Assistant -->
-            <div class="mb-5 p-4 rounded-xl text-center space-y-3 transition-colors duration-300" :class="isDarkMode ? 'bg-red-950/50' : 'bg-gray-100'">
+            <div class="mb-5 p-4 rounded-xl text-center space-y-3 transition-colors duration-300" :class="isDarkMode ? 'bg-[#111111]/50' : 'bg-gray-100'">
                 <div>
                     <div class="text-sm font-bold">Vouch Assistant</div>
                     <div class="text-xs mt-1 transition-colors duration-300" :class="isDarkMode ? 'text-gray-300' : 'text-gray-600'">Select your rating above, then click below to automatically draft your review, post your vouch, and add it to the reviews page!</div>
                 </div>
-                <button @click="runAiAssistantAndSubmit()" :disabled="isAiGenerating" class="w-full bg-red-700 hover:bg-red-600 text-white text-xs font-semibold py-3 rounded-xl transition shadow-lg flex items-center justify-center gap-2 disabled:opacity-50">
+                <button @click="runAiAssistantAndSubmit()" :disabled="isAiGenerating" class="w-full bg-[#141414] hover:bg-[#1a1a1a] text-white text-xs font-semibold py-3 rounded-xl transition shadow-lg flex items-center justify-center gap-2 disabled:opacity-50">
                     <span x-show="!isAiGenerating" x-text="'Submit ' + selectedStars + '-Star Vouch & Claim'"></span>
                     <span x-show="isAiGenerating">Drafting review & sending...</span>
                 </button>
             </div>
 
             <div class="space-y-2">
-                <button @click="showPaymentModal = false" class="w-full py-2.5 rounded-xl text-xs transition transition-colors duration-300" :class="isDarkMode ? 'bg-red-950/40 hover:bg-red-950/60 text-gray-300' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'">
+                <button @click="showPaymentModal = false" class="w-full py-2.5 rounded-xl text-xs transition transition-colors duration-300" :class="isDarkMode ? 'bg-[#111111]/40 hover:bg-[#191919]/60 text-gray-300' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'">
                     Cancel
                 </button>
             </div>
@@ -340,20 +340,20 @@
     </div>
 
     <div x-show="showDownloadModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4" x-cloak>
-        <div class="rounded-2xl max-w-md w-full p-6 shadow-2xl relative text-center transition-colors duration-300" :class="isDarkMode ? 'bg-[#120303] text-white' : 'bg-white text-gray-900'">
+        <div class="rounded-2xl max-w-md w-full p-6 shadow-2xl relative text-center transition-colors duration-300" :class="isDarkMode ? 'bg-[#050505] text-white' : 'bg-white text-gray-900'">
             <button @click="showDownloadModal = false" class="absolute top-4 right-4 transition-colors" :class="isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-black'">&times;</button>
-            <div class="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 text-red-400 transition-colors duration-300" :class="isDarkMode ? 'bg-red-900/40' : 'bg-red-100'">
+            <div class="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-300 transition-colors duration-300" :class="isDarkMode ? 'bg-[#111111]' : 'bg-gray-100'">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
             </div>
             <h3 class="text-xl font-bold mb-2" x-text="'Ready to Download: ' + productName"></h3>
             <p class="text-xs mb-6 transition-colors duration-300" :class="isDarkMode ? 'text-gray-300' : 'text-gray-600'">Your vouch and order details have been successfully posted to Discord, added to site reviews, and your download is ready!</p>
-            <a :href="downloadLink" target="_blank" class="w-full bg-red-700 hover:bg-red-600 text-white font-medium py-3 rounded-xl text-sm transition block shadow-lg mb-3">Access Download Link</a>
-            <button @click="showDownloadModal = false" class="w-full py-2.5 rounded-xl text-xs transition transition-colors duration-300" :class="isDarkMode ? 'bg-red-950/40 hover:bg-red-950/60 text-gray-300' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'">Close</button>
+            <a :href="downloadLink" target="_blank" class="w-full bg-[#141414] hover:bg-[#1a1a1a] text-white font-medium py-3 rounded-xl text-sm transition block shadow-lg mb-3">Access Download Link</a>
+            <button @click="showDownloadModal = false" class="w-full py-2.5 rounded-xl text-xs transition transition-colors duration-300" :class="isDarkMode ? 'bg-[#111111]/40 hover:bg-[#191919]/60 text-gray-300' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'">Close</button>
         </div>
     </div>
 
-    <footer class="w-full py-6 text-center text-xs border-t transition-colors duration-300" :class="isDarkMode ? 'text-gray-500 border-red-950/20' : 'text-gray-400 border-gray-200'">
-        Powered by ii.Pub • Secure Digital Distribution
+    <footer class="w-full py-6 text-center text-xs border-t transition-colors duration-300" :class="isDarkMode ? 'text-gray-500 border-gray-900/40' : 'text-gray-400 border-gray-200'">
+        Powered by Bunny.gg • Secure Digital Distribution
     </footer>
 
     <script>
@@ -391,9 +391,9 @@
                 cartItems: JSON.parse(localStorage.getItem('iipub_cart') || '[]'),
                 
                 customerReviews: JSON.parse(localStorage.getItem('iipub_reviews') || JSON.stringify([
-                    { id: 1, author: "syntax99", product: "ii.Pub Spoofer", text: "got it instantly, no issues at all. solid tool", rating: 5, timeAgo: "2 hours ago" },
-                    { id: 2, author: "kyle_x", product: "II.Pub Menu", text: "super smooth process, link dropped right away +vouch", rating: 5, timeAgo: "5 hours ago" },
-                    { id: 3, author: "tristan", product: "ii.Pub Spoofer", text: "works as described, took like 10 seconds to setup", rating: 5, timeAgo: "1 day ago" }
+                    { id: 1, author: "syntax99", product: "Bunny.gg Spoofer", text: "got it instantly, no issues at all. solid tool", rating: 5, timeAgo: "2 hours ago" },
+                    { id: 2, author: "kyle_x", product: "Bunny.gg Menu", text: "super smooth process, link dropped right away +vouch", rating: 5, timeAgo: "5 hours ago" },
+                    { id: 3, author: "tristan", product: "Bunny.gg Spoofer", text: "works as described, took like 10 seconds to setup", rating: 5, timeAgo: "1 day ago" }
                 ])),
 
                 init() {
@@ -481,7 +481,7 @@
                                 `got the ${this.productName} right away, super fast and smooth process. solid seller +vouch`,
                                 `instant delivery and everything works perfectly as described. appreciate it +vouch`,
                                 `smooth transaction, got the files immediately. definitely recommend +vouch`,
-                                `super fast automated delivery, working flawlessly. +vouch for ii.pub`
+                                `super fast automated delivery, working flawlessly. +vouch for Bunny.gg`
                             ],
                             4: [
                                 `got the ${this.productName}, took a quick second but everything works fine. good service`,
@@ -551,10 +551,10 @@
                 finalizeOrder() {
                     this.isAiGenerating = false;
 
-                    if (this.productName === 'ii.Pub Spoofer') {
+                    if (this.productName === 'Bunny.gg Spoofer') {
                         if (this.spooferStock > 0) this.spooferStock--;
-                        this.downloadLink = 'https://gofile.io/d/KCV7JXCg';
-                    } else if (this.productName === 'II.Pub Menu') {
+                        this.downloadLink = 'https://gofile.io/d/OOATmblg';
+                    } else if (this.productName === 'Bunny.gg Menu') {
                         if (this.menuStock > 0) this.menuStock--;
                         this.downloadLink = 'https://gofile.io/d/wPq2ogZC';
                     }
