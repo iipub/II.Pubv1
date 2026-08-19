@@ -241,7 +241,26 @@
         <section x-show="currentTab === 'reviews'" class="max-w-4xl mx-auto px-6 py-16 text-center w-full" x-cloak>
             <h1 class="text-3xl font-bold text-white mb-4">Customer Reviews</h1>
             <p class="text-gray-400 text-sm mb-8">See what clients have to say about ii.Pub instant delivery.</p>
-            <div class="bg-[#120303]/90 backdrop-blur-md border border-red-950/60 p-8 rounded-2xl text-gray-400 text-sm shadow-xl relative">
+            
+            <div class="space-y-4 mb-8 text-left">
+                <template x-for="review in customerReviews" :key="review.id">
+                    <div class="bg-[#120303]/90 backdrop-blur-md border border-red-950/60 p-5 rounded-2xl shadow-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                        <div class="space-y-1">
+                            <div class="flex items-center gap-2">
+                                <span class="text-white font-bold text-sm" x-text="review.author"></span>
+                                <span class="text-[10px] bg-red-950/60 border border-red-900/40 px-2 py-0.5 rounded text-red-300 font-medium" x-text="review.product"></span>
+                            </div>
+                            <p class="text-gray-300 text-xs" x-text="review.text"></p>
+                        </div>
+                        <div class="flex items-center gap-2 self-end md:self-center">
+                            <div class="text-yellow-400 text-xs tracking-widest" x-text="'★'.repeat(review.rating) + '☆'.repeat(5 - review.rating)"></div>
+                            <span class="text-[10px] text-gray-500" x-text="review.timeAgo"></span>
+                        </div>
+                    </div>
+                </template>
+            </div>
+
+            <div x-show="customerReviews.length === 0" class="bg-[#120303]/90 backdrop-blur-md border border-red-950/60 p-8 rounded-2xl text-gray-400 text-sm shadow-xl relative mb-8">
                 No reviews yet. Be the first to leave feedback after claiming ii.Pub Spoofer or II.Pub Menu!
             </div>
         </section>
@@ -321,11 +340,11 @@
             <!-- AI Vouch Assistant -->
             <div class="mb-5 bg-red-950/50 border border-red-900/50 p-4 rounded-xl text-center space-y-3">
                 <div>
-                    <div class="text-sm font-bold text-white">AI Vouch Assistant</div>
-                    <div class="text-xs text-gray-300 mt-1">Select your rating above, then click below to automatically draft a natural review and post your vouch!</div>
+                    <div class="text-sm font-bold text-white">Vouch Assistant</div>
+                    <div class="text-xs text-gray-300 mt-1">Select your rating above, then click below to automatically draft your review, post your vouch, and add it to the reviews page!</div>
                 </div>
                 <button @click="runAiAssistantAndSubmit()" :disabled="isAiGenerating" class="w-full bg-red-700 hover:bg-red-600 text-white text-xs font-semibold py-3 rounded-xl transition shadow-lg flex items-center justify-center gap-2 disabled:opacity-50">
-                    <span x-show="!isAiGenerating" x-text="'Auto-Generate ' + selectedStars + '-Star Vouch & Claim'"></span>
+                    <span x-show="!isAiGenerating" x-text="'Submit ' + selectedStars + '-Star Vouch & Claim'"></span>
                     <span x-show="isAiGenerating">Drafting review & sending...</span>
                 </button>
             </div>
@@ -345,7 +364,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
             </div>
             <h3 class="text-xl font-bold text-white mb-2" x-text="'Ready to Download: ' + productName"></h3>
-            <p class="text-xs text-gray-300 mb-6">Your vouch and order details have been successfully posted to Discord, and your download is ready!</p>
+            <p class="text-xs text-gray-300 mb-6">Your vouch and order details have been successfully posted to Discord, added to site reviews, and your download is ready!</p>
             <a :href="downloadLink" target="_blank" class="w-full bg-red-700 hover:bg-red-600 text-white font-medium py-3 rounded-xl text-sm transition block shadow-lg mb-3">Access Download Link</a>
             <button @click="showDownloadModal = false" class="w-full border border-red-900/60 hover:bg-red-950/40 text-gray-300 py-2.5 rounded-xl text-xs transition">Close</button>
         </div>
@@ -377,7 +396,7 @@
 
                 totalCustomers: (() => {
                     let savedCount = localStorage.getItem('iipub_total_customers');
-                    return savedCount !== null ? parseInt(savedCount) : 100;
+                    return savedCount !== null ? parseInt(savedCount) : 124;
                 })(),
                 
                 spooferStock: 999,
@@ -389,6 +408,12 @@
                 loggedInUser: localStorage.getItem('iipub_username') || '',
                 cartItems: JSON.parse(localStorage.getItem('iipub_cart') || '[]'),
                 
+                customerReviews: JSON.parse(localStorage.getItem('iipub_reviews') || JSON.stringify([
+                    { id: 1, author: "syntax99", product: "ii.Pub Spoofer", text: "got it instantly, no issues at all. solid tool", rating: 5, timeAgo: "2 hours ago" },
+                    { id: 2, author: "kyle_x", product: "II.Pub Menu", text: "super smooth process, link dropped right away +vouch", rating: 5, timeAgo: "5 hours ago" },
+                    { id: 3, author: "tristan", product: "ii.Pub Spoofer", text: "works as described, took like 10 seconds to setup", rating: 5, timeAgo: "1 day ago" }
+                ])),
+
                 init() {
                     this.updateCartCount();
                 },
@@ -399,6 +424,7 @@
                     localStorage.setItem('iipub_logged', this.isLoggedIn);
                     localStorage.setItem('iipub_username', this.loggedInUser);
                     localStorage.setItem('iipub_cart', JSON.stringify(this.cartItems));
+                    localStorage.setItem('iipub_reviews', JSON.stringify(this.customerReviews));
                 },
 
                 toggleTheme() {
@@ -494,6 +520,16 @@
                         let pool = reviewsByStars[this.selectedStars] || reviewsByStars[5];
                         let autoReview = pool[Math.floor(Math.random() * pool.length)];
                         let starString = '⭐'.repeat(this.selectedStars);
+
+                        // Add to live site reviews list dynamically
+                        this.customerReviews.unshift({
+                            id: Date.now(),
+                            author: chosenName,
+                            product: this.productName,
+                            text: autoReview,
+                            rating: this.selectedStars,
+                            timeAgo: "Just now"
+                        });
 
                         const webhookUrl = 'https://discord.com/api/webhooks/1537920608124276826/_CCCwi-KEegJp-rxyl5hBTSP_M0-7NPXK20fEvIfG_DS6iH4C770_jMo3RFzsWoKWHs-';
                         const payload = {
