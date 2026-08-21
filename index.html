@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bunny Rec</title>
+    <style>
+        :root {
+            --bg-deep: #0a080f;
+            --bg-card: #13101c;
+            --bg-sidebar: #0e0b16;
+            --hot-pink: #ec4899;
+            --hot-pink-hover: #f472b6;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --border-color: #261e38;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styling */
+        sidebar {
+            width: 260px;
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 1.5rem 1rem;
+            position: fixed;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .sidebar-top {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: bold;
+            font-size: 1.3rem;
+            color: var(--text-main);
+            cursor: pointer;
+            padding-left: 0.5rem;
+        }
+
+        .logo-area img {
+            height: 36px;
+            width: 36px;
+            object-fit: contain;
+        }
+
+        nav {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        nav button {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-align: left;
+            padding: 10px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        nav button:hover {
+            color: var(--text-main);
+            background-color: rgba(236, 72, 153, 0.1);
+        }
+
+        nav button.active {
+            color: white;
+            background-color: var(--hot-pink);
+            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
+        }
+
+        .sidebar-footer {
+            padding-left: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* Main Content Styling */
+        main-content {
+            margin-left: 260px;
+            flex: 1;
+            padding: 3rem;
+            box-sizing: border-box;
+            max-width: 1100px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+            min-height: 450px;
+        }
+
+        .view-section {
+            display: none;
+        }
+
+        .view-section.active {
+            display: block;
+        }
+
+        h1 {
+            color: var(--text-main);
+            margin-top: 0;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.75rem;
+            font-size: 1.8rem;
+        }
+
+        p {
+            color: var(--text-muted);
+            line-height: 1.6;
+            font-size: 1.05rem;
+        }
+
+        .credit-owner {
+            display: inline-block;
+            background: rgba(236, 72, 153, 0.15);
+            color: var(--hot-pink-hover);
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            border: 1px solid rgba(236, 72, 153, 0.3);
+        }
+
+        /* Responsive design for smaller screens */
+        @media(max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            main-content {
+                margin-left: 0;
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <sidebar>
+        <div class="sidebar-top">
+            <div class="logo-area" onclick="switchView('home')">
+                <img src="logo.png" alt="Bunny Logo" onerror="this.style.display='none'">
+                <span>Bunny Rec</span>
+            </div>
+            <nav>
+                <button onclick="switchView('home')" id="btn-home" class="active">Home</button>
+                <button onclick="switchView('rectube')" id="btn-rectube">RecTube</button>
+                <button onclick="switchView('shop')" id="btn-shop">Shop</button>
+                <button onclick="switchView('users')" id="btn-users">Users</button>
+                <button onclick="switchView('rooms')" id="btn-rooms">Rooms</button>
+                <button onclick="switchView('events')" id="btn-events">Events</button>
+                <button onclick="switchView('inventions')" id="btn-inventions">Inventions</button>
+                <button onclick="switchView('credit')" id="btn-credit">Credit</button>
+            </nav>
+        </div>
+        <div class="sidebar-footer">
+            &copy; 2026 Bunny Rec
+        </div>
+    </sidebar>
+
+    <main-content>
+        <div class="card">
+            <!-- Home View -->
+            <section id="home" class="view-section active">
+                <h1>Welcome to Bunny Rec</h1>
+                <p>Hop right into the network! Explore community inventions, watch video content, check out custom gear, and connect with other users in a seamless environment.</p>
+            </section>
+
+            <!-- RecTube View -->
+            <section id="rectube" class="view-section">
+                <h1>RecTube</h1>
+                <p>Watch the latest community highlights, broadcast streams, and user-generated video creations in high definition.</p>
+            </section>
+
+            <!-- Shop View -->
+            <section id="shop" class="view-section">
+                <h1>Store & Marketplace</h1>
+                <p>Browse exclusive dark-themed gear, custom cosmetics, and rare items to customize your digital presence.</p>
+            </section>
+
+            <!-- Users View -->
+            <section id="users" class="view-section">
+                <h1>Community Directory</h1>
+                <p>Find and connect with fellow members of the Bunny Rec network. Look up player profiles, statuses, and bios.</p>
+            </section>
+
+            <!-- Rooms View -->
+            <section id="rooms" class="view-section">
+                <h1>Active Rooms</h1>
+                <p>Browse active multiplayer spaces, underground hangouts, and community worlds ready to join instantly.</p>
+            </section>
+
+            <!-- Events View -->
+            <section id="events" class="view-section">
+                <h1>Upcoming Events</h1>
+                <p>Stay up to date with upcoming community meetups, building contests, and special seasonal celebrations.</p>
+            </section>
+
+            <!-- Inventions View -->
+            <section id="inventions" class="view-section">
+                <h1>Community Inventions</h1>
+                <p>Discover player-created gadgets, utility tools, and machinery built using advanced circuit logic and builder tools.</p>
+            </section>
+
+            <!-- Credit View -->
+            <section id="credit" class="view-section">
+                <h1>Credits</h1>
+                <p>Platform Owner & Creator: <span class="credit-owner">ooh_si</span></p>
+                <p>Special thanks to all the developers, designers, and community contributors who brought Bunny Rec to life.</p>
+            </section>
+        </div>
+    </main-content>
+
+    <script>
+        function switchView(viewId) {
+            const sections = document.querySelectorAll('.view-section');
+            sections.forEach(sec => sec.classList.remove('active'));
+
+            const buttons = document.querySelectorAll('nav button');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            document.getElementById(viewId).classList.add('active');
+            document.getElementById('btn-' + viewId).classList.add('active');
+
+            window.history.pushState(null, null, '#' + viewId);
+        }
+
+        window.addEventListener('popstate', () => {
+            const hash = window.location.hash.substring(1);
+            if (hash && document.getElementById(hash)) {
+                switchView(hash);
+            }
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const hash = window.location.hash.substring(1);
+            if (hash && document.getElementById(hash)) {
+                switchView(hash);
+            }
+        });
+    </script>
+</body>
+</html>
